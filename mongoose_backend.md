@@ -45,8 +45,9 @@ nest g controller items
 ## Create schema (src/items/item.schema.ts)
 
 ```ts
-import { Prop, Schema, HydratedDocument } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type ItemDocument = HydratedDocument<Item>;
 
