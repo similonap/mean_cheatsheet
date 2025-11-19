@@ -263,3 +263,10 @@ export class ItemWithSubDocs {
 
 export const ItemWithSubDocsSchema = SchemaFactory.createForClass(ItemWithSubDocs);
 ```
+
+## JSON importeren via mongoimport:
+
+```bash
+mongoimport --db=items-db --collection=items --file=items.json --jsonArray
+```
+
