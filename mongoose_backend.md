@@ -166,34 +166,6 @@ export class ItemsService {
 }
 ```
 
-Je kan eventueel ook filters toevoegen aan de findAll methode, bijvoorbeeld:
-
-```ts
-    async findAll(filter: Partial<Item> = {}): Promise<Item[]> {
-        return this.itemModel.find(filter).exec();
-    }
-```
-
-Of via een regex als je op strings wil filteren:
-
-```ts
-    async findAll(filter: Partial<Item> = {}): Promise<Item[]> {
-        const mongooseFilter: FilterQuery<Partial<Item>> = {};
-
-        if (filter.prop1) {
-            mongooseFilter.prop1 = new RegExp(`^${filter.prop1}$`, 'i');
-        }
-        if (filter.prop2 !== undefined) {
-            mongooseFilter.prop2 = filter.prop2;
-        }
-        if (filter.prop3 !== undefined) {
-            mongooseFilter.prop3 = filter.prop3;
-        }
-
-        return this.itemModel.find(mongooseFilter).exec();
-    }
-```
-
 ## Controller implementeren (src/items/items.controller.ts)
 
 ```ts
@@ -205,8 +177,8 @@ export class ItemsController {
   constructor(private readonly itemsService: ItemsService) {}
 
     @Get()
-    findAll(@Query() query: Partial<CreateItemDto>) {
-        return this.itemsService.findAll(query);
+    findAll() {
+        return this.itemsService.findAll();
     }
 
     @Get(':id')
