@@ -42,41 +42,7 @@ nest g service items
 nest g controller items
 ```
 
-
-<!-- import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
-
-export type EntryDocument = HydratedDocument<Entry>;
-
-@Schema({ collection: 'entries' })
-export class Entry {
-  @Prop({ type: Number, required: true, unique: true })
-  id!: number;
-
-  @Prop({ type: String, required: true })
-  date!: string;
-
-  @Prop({ type: String, required: true })
-  runType!: string;
-
-  @Prop({ type: Number, required: true })
-  actualDistanceKm!: number;
-
-  @Prop({ type: Number, required: true })
-  actualDurationMin!: number;
-
-  @Prop({ type: Number, required: true })
-  sRPE!: number;
-
-  @Prop({ type: String, required: false })
-  notes?: string;
-}
-
-export const EntrySchema = SchemaFactory.createForClass(Entry);
-
- -->
-
-## Create schema (src/items/schemas/item.schema.ts)
+## Create schema (src/items/item.schema.ts)
 
 ```ts
 import { Prop, Schema, HydratedDocument } from '@nestjs/mongoose';
@@ -124,7 +90,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ItemsService } from './items.service';
 import { ItemsController } from './items.controller';
-import { Item, ItemSchema } from './schemas/item.schema';
+import { Item, ItemSchema } from './item.schema';
 
 @Module({
   imports: [
@@ -157,7 +123,7 @@ export type UpdateItemDto = Partial<CreateItemDto>;
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Item, ItemDocument } from './schemas/item.schema';
+import { Item, ItemDocument } from './item.schema';
 import { CreateItemDto } from './dto/create-item.dto';
 
 @Injectable()
