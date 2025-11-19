@@ -264,8 +264,35 @@ export class ItemsController {
 }
 ```
 
-## Run the application
-```bash
-npm run start:dev
+## Schema met array property
+
+```ts
+@Prop({ type: [String], required: true })
+tags: string[];
 ```
 
+## Schema met geneste subdocumenten
+
+```ts
+@Schema()
+export class SubDocument {
+    @Prop({ type: String, required: true })
+    subProp1: string;
+
+    @Prop({ type: Number, required: true })
+    subProp2: number;
+
+}
+
+export const SubDocumentSchema = SchemaFactory.createForClass(SubDocument);
+```
+
+```ts
+@Schema()
+export class ItemWithSubDocs {
+    @Prop({ type: [SubDocumentSchema], required: true })
+    subDocs: SubDocument[];
+}
+
+export const ItemWithSubDocsSchema = SchemaFactory.createForClass(ItemWithSubDocs);
+```
