@@ -213,7 +213,7 @@ export class ItemsController {
 tags: string[];
 ```
 
-## Schema met geneste subdocumenten
+## Schema met een referentie naar een subdocument
 
 ```ts
 @Schema()
@@ -231,9 +231,9 @@ export const SubDocumentSchema = SchemaFactory.createForClass(SubDocument);
 
 ```ts
 @Schema()
-export class ItemWithSubDocs {
-    @Prop({ type: [SubDocumentSchema], required: true })
-    subDocs: SubDocument[];
+export class ItemWithSubDoc {
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: SubDocument.name })
+    subItem: SubDocument
 }
 
 export const ItemWithSubDocsSchema = SchemaFactory.createForClass(ItemWithSubDocs);
