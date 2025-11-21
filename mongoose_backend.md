@@ -55,13 +55,13 @@ export type ItemDocument = HydratedDocument<Item>;
 export class Item {
     @Prop({ type: Number, required: true, unique: true })
     id!: number;
-    @Prop({ type: String, required: false })
+    @Prop({ type: String, required: true })
     prop1: string; 
 
     @Prop({ type: Number, required: true })
     prop2: number;
 
-    @Prop({ type: Boolean, required: true })
+    @Prop({ type: Boolean, required: false })
     prop3: boolean;
 }
 
@@ -106,16 +106,19 @@ export class ItemsModule {}
 ## DTO's maken voor create en update (src/items/dto/create-item.dto.ts en src/items/dto/update-item.dto.ts)
 
 ```ts
-export interface CreateItemDto {
-    id: number;
-    prop1: string;
-    prop2: number;
-    prop3: boolean;
+export class CreateItemDto {
+    prop1!: string;
+    prop2!: number;
+    prop3?: boolean;
 }
 ```
 
 ```ts
-export type UpdateItemDto = Partial<CreateItemDto>;
+export class UpdateItemDto {
+    prop1?: string;
+    prop2?: number;
+    prop3?: boolean;
+}
 ```
 
 ## Service implementeren (src/items/items.service.ts)
