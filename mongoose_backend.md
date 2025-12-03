@@ -121,6 +121,22 @@ export class UpdateItemDto {
 }
 ```
 
+Je kan ook de OmitType en PartialType utilities van @nestjs/swagger gebruiken om deze DTO's te genereren op basis van elkaar.
+
+```ts
+import { OmitType, PartialType } from '@nestjs/swagger';
+
+export class CreateItemDto {
+    prop1!: string;
+    prop2!: number;
+    prop3?: boolean;
+}
+
+export class UpdateItemDto extends PartialType(CreateItemDto) {}
+```
+
+vergeet dan niet de `@nestjs/swagger` package te installeren met `npm install @nestjs/swagger`.
+
 ## Service implementeren (src/items/items.service.ts)
 
 ```ts
@@ -245,3 +261,21 @@ export const ItemWithSubDocsSchema = SchemaFactory.createForClass(ItemWithSubDoc
 mongoimport --db=items-db --collection=items --file=items.json --jsonArray
 ```
 
+## Swagger integreren
+
+```bash
+npm install --save @nestjs/swagger
+```
+
+en dan in main.ts:
+
+```ts
+  const config = new DocumentBuilder()
+    .setTitle('Items example')
+    .setDescription('The items API description')
+    .setVersion('1.0')
+    .addTag('items')
+    .build();
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, documentFactory);
+``` 
