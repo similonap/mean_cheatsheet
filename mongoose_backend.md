@@ -255,6 +255,51 @@ export class ItemWithSubDoc {
 export const ItemWithSubDocsSchema = SchemaFactory.createForClass(ItemWithSubDocs);
 ```
 
+    <!-- async create(dto: CreatePropertyDto): Promise<Property> {
+        let realtor = await this.realtorModel.findById<Realtor>(dto.realtor).lean().exec();
+
+        if (!realtor) {
+            throw new NotFoundException('Realtor not found');
+        }
+
+        return new this.propertyModel({...dto, realtor: realtor}).save();
+    }
+
+    async findAll(): Promise<Property[]> {
+        return this.propertyModel.find().populate("realtor").exec();
+    } -->
+
+## Populate gebruiken om subdocumenten op te halen
+
+```ts
+return this.itemModel.find().populate("subItem").exec();
+```
+
+## Een item aanmaken met subdocument referentie
+
+Je moet eerst het subdocument ophalen en dan de referentie gebruiken bij het aanmaken van het hoofditem.
+
+```ts
+async create(dto: CreateItemWithSubDocDto): Promise<ItemWithSubDoc> {
+    let subDoc = await this.subDocumentModel.findById<SubDocument>(dto.subItem_id).lean().exec();
+
+    if (!subDoc) {
+        throw new NotFoundException('SubDocument not found');
+    }
+
+    return new this.itemWithSubDocModel({...dto, subItem: subDoc}).save();
+}
+```
+
+Dan moet natuurlijk de DTO ook de juiste property bevatten:
+
+```ts
+export class CreateItemWithSubDocDto {
+    subItem_id!: string; // ID van het subdocument
+    // andere properties...
+}
+```
+
 ## JSON importeren via mongoimport:
 
 ```bash
